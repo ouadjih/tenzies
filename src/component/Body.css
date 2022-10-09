@@ -42,3 +42,8 @@
     border: none;
     cursor: pointer;
 }
+p{
+    position: relative;
+    top: 4em;
+    color: #4A4E74;
+}
