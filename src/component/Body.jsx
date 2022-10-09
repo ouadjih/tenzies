@@ -6,6 +6,7 @@ import Confetti from "react-confetti";
 export default function Body() {
   const [dice, setDice] = React.useState(allNewDice);
   const [tenzies, setTenzies] = React.useState(false);
+  const [number,setNumber]= React.useState(()=>JSON.parse(localStorage.getItem("best"))|| 0)
 
   React.useEffect(() => {
     const allHeld = dice.every((die) => die.isHeld);
@@ -16,6 +17,10 @@ export default function Body() {
       console.log("you won");
     }
   }, [dice]);
+
+  React.useEffect(()=>{
+    localStorage.setItem("best",JSON.stringify(number))
+},[number])
 
   function allNewDice() {
     const tenNum = [];
@@ -32,8 +37,10 @@ export default function Body() {
     };
   }
   function newgame() {
+    
     setTenzies(false);
     setDice(allNewDice());
+
   }
   //superstar
   function holdDice(id) {
@@ -43,12 +50,14 @@ export default function Body() {
       })
     );
   }
+
   function rollDice() {
     setDice((oldDice) =>
       oldDice.map((die) => {
         return die.isHeld ? die : generateNewDie();
       })
     );
+    setNumber(prevNum => prevNum + 1)
   }
   const d = new Date();
 
@@ -79,6 +88,7 @@ export default function Body() {
           Roll
         </button>
       )}
+     <p>Your best score : {number}</p> 
       <p>Copyright {d.getFullYear()} Mohmaed Ouadjih Boudraa</p>
     </div>
   );
